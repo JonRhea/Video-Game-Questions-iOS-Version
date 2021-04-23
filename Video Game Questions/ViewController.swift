@@ -17,11 +17,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var answerButton2: UIButton!
     @IBOutlet weak var answerButton3: UIButton!
     @IBOutlet weak var answerButton4: UIButton!
+    @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var resultLabel: UILabel!
     
     //varaibles and arrays needed
     var questionsArray : [String] = []
-    var questionOrder = Array(repeating: 0, count: 5)
+    var questionOrder = Array(repeating: 0, count: 10)
     var questionLine : [Substring] = []
     var answerArray : [Substring] = ["","","",""]
     var questionCounter = 0
@@ -31,6 +32,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        resetButton.isHidden = true;
+        resetButton.isEnabled = false;
         readQuestion()
         setTexts()
  
@@ -41,14 +44,14 @@ class ViewController: UIViewController {
         
         //put 0 through 4 in this order array
         //this is needed to randomize the questions later
-        for counter in 0...4{
+        for counter in 0...9{
             
             questionOrder[counter] = counter
             
         }//end for
         
         //array of questions
-        questionsArray = ["Which Wii game was a launch title and the best selling game for the system?,Wii Sports,The Legend of Zelda: Twilight Princess,Wii Play,Super Mario Galaxy," , "What is Mario's first 3D adventure?,Super Mario 64,Super Mario Sunshine,Mario Party,Mario Tennis," , "Which Pokemon game takes place in the Sinnoh region?,Pokemon Platinum,Pokemon Sword/Shield,Pokemon Heart Gold/Soul Silver,Pokemon Emerald," , "Who is Joker's main persona in Persona 5?,Arsene,Izanagi,Captain Kidd,Carmen," , "Who is Mario trying to save in the original Donkey Kong game?,Pauline,Princess Peach,Princess Daisy,Rosalina,"]
+        questionsArray = ["Which Wii game was a launch title and the best selling game for the system?,Wii Sports,The Legend of Zelda: Twilight Princess,Wii Play,Super Mario Galaxy," , "What is Mario's first 3D adventure?,Super Mario 64,Super Mario Sunshine,Mario Party,Mario Tennis," , "Which Pokemon game takes place in the Sinnoh region?,Pokemon Platinum,Pokemon Sword/Shield,Pokemon Heart Gold/Soul Silver,Pokemon Emerald," , "Who is Joker's main persona in Persona 5?,Arsene,Izanagi,Captain Kidd,Carmen," , "Who is Mario trying to save in the original Donkey Kong game?,Pauline,Princess Peach,Princess Daisy,Rosalina," , "What is Shulk's signature weapon in Xenoblade Chronicles?,Monado,The Master Sword,Buster Sword,Aegis Sword," , "How many shrines are there in The Legend of Zelda: Breath of the Wild?,120,150,60,90," , "How many years does Link time travel in The Legend of Zelda: Ocarina of Time?,7,5,12,10," , "What is the only starter Pokemon in Pokemon Yellow?,Pikachu,Bulbasaur,Charmander,Squirtle," , "As of Pokemon Sword and Shield - how many Pokemon are there?,898,756,976,1002,"]
         
         //shuffle the questionOrder array
         //this is how the questions get randomized
@@ -86,6 +89,28 @@ class ViewController: UIViewController {
         
         
     }//end setTexts
+    
+    func endGame(){
+        
+        resultLabel.text = "You got all the questions right!"
+        resultLabel.textColor = UIColor.green
+        resetButton.isHidden = false;
+        resetButton.isEnabled = true;
+        
+    }//end endGame
+    
+    func reset(){
+        
+        questionCounter = 0
+        correctCoutner = 0
+        resultLabel.text = " "
+        answerButton1.isEnabled = true
+        answerButton2.isEnabled = true
+        answerButton3.isEnabled = true
+        answerButton4.isEnabled = true
+        readQuestion()
+        setTexts()
+    }//end reset
 
     //methods for all 4 buttons are the same
     //they just correspond to the different buttons
@@ -103,11 +128,16 @@ class ViewController: UIViewController {
             //set a three second delay, then get another question
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.resultLabel.text = " "
+                if(self.correctCoutner == 10){
+                    
+                    self.endGame()
+                }else{
                 self.setTexts()
                 self.answerButton1.isEnabled = true
                 self.answerButton2.isEnabled = true
                 self.answerButton3.isEnabled = true
                 self.answerButton4.isEnabled = true
+                }
             }
             
         }//end if
@@ -123,6 +153,8 @@ class ViewController: UIViewController {
             //set a three second delay, then display amount of questions that were answered correctly
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.resultLabel.text = "You got " + String(self.correctCoutner) + " correct!"
+                self.resetButton.isHidden = false;
+                self.resetButton.isEnabled = true;
             }
         }//end if
             
@@ -140,11 +172,16 @@ class ViewController: UIViewController {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.resultLabel.text = " "
+                if(self.correctCoutner == 10){
+                    
+                    self.endGame()
+                }else{
                 self.setTexts()
                 self.answerButton1.isEnabled = true
                 self.answerButton2.isEnabled = true
                 self.answerButton3.isEnabled = true
                 self.answerButton4.isEnabled = true
+                }
             }
         }//end if
         else{
@@ -157,6 +194,8 @@ class ViewController: UIViewController {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.resultLabel.text = "You got " + String(self.correctCoutner) + " correct!"
+                self.resetButton.isHidden = false;
+                self.resetButton.isEnabled = true;
             }
         }//end if
 
@@ -174,11 +213,16 @@ class ViewController: UIViewController {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.resultLabel.text = " "
+                if(self.correctCoutner == 10){
+                    
+                    self.endGame()
+                }else{
                 self.setTexts()
                 self.answerButton1.isEnabled = true
                 self.answerButton2.isEnabled = true
                 self.answerButton3.isEnabled = true
                 self.answerButton4.isEnabled = true
+                }
             }
         }//end if
         else{
@@ -191,6 +235,8 @@ class ViewController: UIViewController {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.resultLabel.text = "You got " + String(self.correctCoutner) + " correct!"
+                self.resetButton.isHidden = false;
+                self.resetButton.isEnabled = true;
             }
         }//end if
 
@@ -208,11 +254,16 @@ class ViewController: UIViewController {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.resultLabel.text = " "
+                if(self.correctCoutner == 10){
+                    
+                    self.endGame()
+                }else{
                 self.setTexts()
                 self.answerButton1.isEnabled = true
                 self.answerButton2.isEnabled = true
                 self.answerButton3.isEnabled = true
                 self.answerButton4.isEnabled = true
+                }
             }
         }//end if
         else{
@@ -225,10 +276,17 @@ class ViewController: UIViewController {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                 self.resultLabel.text = "You got " + String(self.correctCoutner) + " correct!"
+                self.resetButton.isHidden = false;
+                self.resetButton.isEnabled = true;
             }
         }//end if
 
     }//end answer4Button
     
+    @IBAction func resetButton(_ sender: Any) {
+        resetButton.isHidden = true;
+        resetButton.isEnabled = false;
+        reset()
+    }
 }
 
